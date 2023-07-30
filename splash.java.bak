@@ -1,0 +1,62 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import java.sql.*;
+import javax.swing.*;
+public class splash extends JFrame implements ActionListener
+{
+ JButton btnok = new JButton(new ImageIcon("images/splashbutton.png"));
+ Label prba= new Label();
+ JLabel img=new JLabel(new ImageIcon("images/splashform1.png"));
+ Dimension d1 = Toolkit.getDefaultToolkit().getScreenSize();
+ public splash ()
+ {
+   img.setBounds(0,0,800,900);
+  setLayout(null);
+  setVisible(true);
+  setSize(800,900);
+  int x=(int)d1.getWidth()/2-400;
+  int y=(int)d1.getHeight()/2-450;
+  prba.setBackground(new Color(255,255,100)); 
+  this.setLocation(x,y);
+  btnok.setVisible(true);
+  btnok.setBounds(230,600,370,40);
+  Font f2 = new Font("Monotype Corsiva",Font.BOLD,15);
+  prba.setBounds(150,660,20,30);
+  add(prba);
+  add(btnok);
+  add(img);
+  btnok.addActionListener(this);
+  repaint();
+  try{
+	  Thread.sleep(1000);
+  }
+  catch(Exception ee){}
+   int xx=0;
+		for(int i=1;i<=10;i++)
+		{
+		prba.setBounds(150,660,20+xx,30);
+		xx=xx+50;
+		try
+		{
+		Thread.sleep(100);
+		}
+		catch(Exception ee){}
+/*		for(double k=1;k<=9000000;k++)
+		{}*/
+		}
+}
+public void actionPerformed (ActionEvent e)
+ {
+	 if(e.getSource()==btnok)
+	 {
+	   
+		 Login ob= new Login();
+	 }
+ } 
+ public static void main (String args[])
+ {
+  splash ob = new splash();
+ }
+}
+

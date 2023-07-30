@@ -1,0 +1,392 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.*;
+import java.applet.*;
+import java.util.*;
+import javax.swing.table.DefaultTableModel;
+public class newfund extends JFrame implements ActionListener,FocusListener,ItemListener
+{
+JLabel lbhd = new JLabel("Fund  Collection");
+JLabel lbrec = new JLabel("RECEIPT  No");
+//JLabel lbevty = new JLabel("EVENT  TYPE");
+//JLabel lbevna = new JLabel("EVENT  NAME");
+JLabel lbreg = new JLabel("REGISTRATION  NUMBER");
+JLabel lbsna = new JLabel("STUDENT  NAME");
+JButton btn1 = new JButton(">>");
+JButton btn2 = new JButton("<<");
+JLabel lbdate = new JLabel("DATE");
+JLabel lbamt = new JLabel("AMOUNT");
+ButtonGroup bg =  new ButtonGroup(); 
+JRadioButton rbtpa = new JRadioButton("PARTICIPANTS");
+JRadioButton rbtnpa = new JRadioButton("NON-PARTICIPANTS");
+JTextField txtrec =new JTextField();
+JTextField txtreg = new JTextField();
+JTextField txtsna = new JTextField();
+//JComboBox cbevna = new JComboBox();
+//JComboBox cbevty = new JComboBox();
+JTextField txtdt = new JTextField();
+JTextField txtamt = new JTextField();
+     JButton btnnew = new JButton("NEW");
+JButton btnsv = new JButton("SAVE");
+JButton btnsr = new JButton("SEARCH");
+JButton btned = new JButton("EDIT");
+JButton btncn = new JButton("CANCEL");
+Dimension d1 = Toolkit.getDefaultToolkit().getScreenSize();
+String[] col={"EVENT TYPE","EVENT NAME","AMOUNT"};
+String evty,evna,amt;
+Object [] []data ={{evty},{evna},{amt}};
+DefaultTableModel model = new DefaultTableModel(col,0); 
+JTable sttbl=new JTable(data,col);
+JScrollPane spanel = new JScrollPane(sttbl);
+
+String[] col1={"EVENT TYPE","EVENT NAME","AMOUNT"};
+String evty1,evna1,amt1;
+Object [] []data1 ={{evty1},{evna1},{amt1}};
+DefaultTableModel model1 = new DefaultTableModel(col1,0); 
+JTable sttbl1=new JTable(data1,col1);
+JScrollPane spanel1 = new JScrollPane(sttbl1);
+
+public newfund ()
+     {
+         setLayout(null);
+setVisible(true);
+int x = (int)d1.getWidth();
+int y = (int)d1.getHeight();
+setResizable(false);
+setSize(x,y); 
+lbhd.setBounds(500,40,400,40);
+rbtpa.setBounds(300,100,170,20);
+rbtnpa.setBounds(580,100,200,20);
+lbrec.setBounds(200,140,140,20);
+txtrec.setBounds(480,140,80,20);
+sttbl.setModel(model);
+spanel.setBounds(670,140,270,350);
+add (spanel);
+btn1.setBounds(950,230,50,15);
+btn2.setBounds(950,260,50,15);
+sttbl1.setModel(model1);
+spanel1.setBounds(1020,140,270,350);
+add (spanel1);
+//lbevty.setBounds(400,190,140,20);
+//cbevty.setBounds(680,190,120,20);
+//lbevna.setBounds(400,240,140,20);
+//cbevna.setBounds(680,240,150,20);
+lbreg.setBounds(200,190,230,20);
+txtreg.setBounds(480,190,100,20);
+lbsna.setBounds(200,240,160,20);
+txtsna.setBounds(480,240,130,20);
+lbdate.setBounds(200,290,100,20);
+txtdt.setBounds(480,290,100,20);
+lbamt.setBounds(200,340,130,20);
+txtamt.setBounds(480,340,100,20);
+btnnew.setBounds(300,520,140,30);
+btnsv.setBounds(460,520,140,30);
+btnsr.setBounds(610,520,140,30);
+btned.setBounds(760,520,140,30);
+btncn.setBounds(910,520,140,30);
+btnsv.setEnabled(false);
+btned.setEnabled(false);
+Font f1 = new Font("Monotype Corsiva",Font.BOLD,35);
+Font f2 = new Font("Monotype Corsiva",Font.BOLD,18);
+Font f3 = new Font("Berlin Sans FB",Font.PLAIN,16);
+lbhd.setForeground(new Color(100,0,60));
+lbhd.setFont(f1);
+lbrec.setFont(f2);
+//lbevty.setFont(f2);
+//lbevna.setFont(f2);
+lbreg.setFont(f2);
+lbsna.setFont(f2);
+lbdate.setFont(f2);
+lbamt.setFont(f2);
+btnnew.setFont(f2);
+btnsv.setFont(f2);
+btnsr.setFont(f2);
+rbtnpa.setFont(f2);
+rbtpa.setFont(f2);
+btned.setFont(f2);
+btncn.setFont(f2);
+txtrec.setFont(f3);
+    //txtevty.setFont(f3);
+    txtreg.setFont(f3);
+    txtsna.setFont(f3);
+txtdt.setFont(f3);
+txtamt.setFont(f3);
+         //cbevna.setFont(f3);
+//cbevty.setFont(f3);
+//txtevna.setFont(f3);
+    txtrec.setEditable(false);
+txtsna.setEditable(false);
+btnnew.setBackground(new Color(100,0,50));
+btn1.setBackground(new Color(100,0,50));
+btn2.setBackground(new Color(100,0,50));
+btnsr.setBackground(new Color(100,0,50));
+btnsv.setBackground(new Color(100,0,50));
+btncn.setBackground(new Color(100,0,50));
+btned.setBackground(new Color(100,0,50));
+btnnew.setForeground(new Color(200,250,150));
+btn1.setForeground(new Color(200,250,150));
+btn2.setForeground(new Color(200,250,150));
+btnsr.setForeground(new Color(200,250,150));
+    btnsv.setForeground(new Color(200,250,150));
+btned.setForeground(new Color(200,250,150));
+    btncn.setForeground(new Color(200,250,150));
+add (lbhd);
+add (lbrec);
+add (lbamt);
+add (lbdate);
+//add (lbevna);
+//add (lbevty);
+add (lbreg);
+add (lbsna);
+add (txtamt);
+add (txtrec);
+add (txtdt);
+//add (cbevna);
+add (rbtnpa);
+add (rbtpa);
+add (txtreg);
+//add (cbevty);
+add (txtsna);
+add (btncn);
+add (btned);
+add (btnnew);
+add (btnsr);
+add (btn1);
+add (btn2);
+add (btnsv);
+bg.add (rbtnpa);
+bg.add (rbtpa);
+btnnew.setMnemonic('N');
+btnsv.setMnemonic('S');
+btnsr.setMnemonic('R');
+btned.setMnemonic('E');
+btncn.setMnemonic('C');
+txtreg.addFocusListener(this);
+btnnew.addActionListener(this);
+btn1.addActionListener(this);
+btn2.addActionListener(this);
+btnsr.addActionListener(this);
+btnsv.addActionListener(this);
+btned.addActionListener(this);
+btncn.addActionListener(this);
+rbtpa.addItemListener(this);
+rbtnpa.addItemListener(this);
+repaint();
+}
+public void itemStateChanged(ItemEvent ie)
+{
+if(rbtnpa.isSelected())
+{
+//lbevna.setVisible(false);
+//cbevna.setVisible(false);
+}
+if(rbtpa.isSelected())
+{
+ //lbevna.setVisible(true);
+ //cbevna.setVisible(true);
+}
+}
+public void focusLost(FocusEvent fe)
+{   
+    
+    if(fe.getSource()==txtreg)
+{   txtsna.setText("");
+        model.setRowCount(0);
+try
+{
+String tevty="",tevna="";
+Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    Statement st1 = con.createStatement();
+    
+String str="Select * from assignmenttbl where regno='"+txtreg.getText()+"'";
+    ResultSet res = st.executeQuery(str);
+ int s=0,ts=0,tst=0;
+while(res.next())
+{   
+        tevty=res.getString(3);
+        tevna=res.getString(4);
+        //cbevty.addItem(tevty);
+txtsna.setText(res.getString(2));
+//cbevna.addItem(tevna);
+Vector v = new Vector();
+v.add(tevty);
+v.add(tevna);
+
+ResultSet res1 = st1.executeQuery("select eventamount,fixedamount from calendar where eventtype='"+tevty+"' and eventname='"+tevna+"'"); 
+
+while(res1.next())
+{
+    ts=Integer.parseInt(res1.getString(2));
+v.add(res1.getString(1));
+}
+model.addRow(v);
+for(int i=0;i<model.getRowCount();i++)
+{
+tst=tst+Integer.parseInt(model.getValueAt(i,2).toString());
+}
+s=tst+ts;
+
+  }
+ JOptionPane.showMessageDialog(null,""+s);
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+}
+}
+public void focusGained(FocusEvent fe)
+{
+
+}
+public void actionPerformed(ActionEvent e)
+{
+if (e.getSource() == btnnew)
+         {   
+        model.setRowCount(0);
+        model1.setRowCount(0);
+        //txtevna.setText("");
+//cbevna.removeAllItems();
+//cbevty.removeAllItems();
+        btnsv.setEnabled(true);
+//txtevty.setText("");
+             txtamt.setText("");
+             txtdt.setText("");
+             txtreg.setText("");
+             txtsna.setText("");
+try
+{
+Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+Statement st = con.createStatement();
+ResultSet res1 = st.executeQuery("select * from keytable");
+                 while(res1.next())
+                 {
+                      txtrec.setText("R/" + res1.getString(5));
+                 }
+             }
+             catch(Exception ee)
+             {
+                 System.out.println(ee);
+             }
+}
+if (e.getSource() == btn1)
+{
+  Vector v=new Vector();
+  
+    for(int i=0;i<3;i++)
+{
+v.add(model.getValueAt(sttbl.getSelectedRow(),i));
+}
+model1.addRow(v);
+model.removeRow(sttbl.getSelectedRow());
+}
+if (e.getSource() == btn2)
+{
+ Vector v=new Vector();
+  
+    for(int i=0;i<3;i++)
+{
+v.add(model1.getValueAt(sttbl1.getSelectedRow(),i));
+}
+model.addRow(v);
+model1.removeRow(sttbl1.getSelectedRow());
+}
+if (e.getSource() == btnsv)
+{
+btnsv.setEnabled(false);
+       if(txtsna.getText().length()!=0&&txtreg.getText().length()!=0&&txtamt.getText().length()!=0&&txtdt.getText().length()!=0)
+       { 
+                 try
+                 {
+                     Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+                     String str = "insert into fundcolltbl(RECEIPTNO,REGISTRATIONNO,STUDENTNAME,PAYDATE,AMOUNT)values(?,?,?,?,?)";
+String teventname="",teventtype="";
+/*if(rbtpa.isSelected())
+{
+                         teventtype=cbevty.getSelectedItem().toString();             
+        teventname=cbevna.getSelectedItem().toString();
+}
+else
+{
+teventname="NA";
+}*/
+PreparedStatement ps = con.prepareStatement(str);
+ps.setString(1,txtrec.getText());
+                     //ps.setString(2,teventtype);
+                     //ps.setString(3,teventname);
+                     ps.setString(2,txtreg.getText());
+                     ps.setString(3,txtsna.getText());
+ps.setString(4,txtdt.getText());
+ps.setString(5,txtamt.getText());
+                     ps.executeUpdate();
+Statement st = con.createStatement();
+str="Update keytable set RECEIPTNO=RECEIPTNO+1";
+st.executeUpdate(str);
+JOptionPane.showMessageDialog(null,"SAVED");
+}
+                 catch(Exception ee)
+                 {
+                     System.out.println(ee);
+                 }
+             }
+            else
+        JOptionPane.showMessageDialog(null,"Empty Field Cannot be Saved");
+         }
+if(e.getSource() == btnsr)
+        { 
+            btned.setEnabled(true);
+             try
+             { 
+                 Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+                 Statement st = con.createStatement();
+                 String tid = JOptionPane.showInputDialog(null,"Enter RECEIPT NUMBER :-");
+ResultSet res = st.executeQuery("select * from fundcolltbl where receiptid='"+tid+"'");
+while(res.next())
+{   
+        txtrec.setText(res.getString(1));
+//txtevty.setText(res.getString(3));
+//txtevna.setText(res.getString(4));
+txtreg.setText(res.getString(2));
+txtsna.setText(res.getString(3));
+txtdt.setText(res.getString(4));
+txtamt.setText(res.getString(5));
+                 }
+}
+catch(Exception ee)
+{
+  System.out.println(ee);
+}
+        }
+if (e.getSource() == btned)
+{
+btned.setEnabled(false);
+if(txtsna.getText().length()!=0&&txtreg.getText().length()!=0&&txtamt.getText().length()!=0&&txtdt.getText().length()!=0)
+   { 
+     try
+                  {
+Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+                     Statement st1 = con1.createStatement();
+                     String str="Update fundcolltbl set paiddate='"+txtdt.getText()+"',amount='"+txtamt.getText()+"',registrationno='"+txtreg.getText()+"',studentname='"+txtsna.getText()+"' where receiptno='"+txtrec.getText()+"'" ;
+                     st1.executeUpdate(str);
+                     JOptionPane.showMessageDialog(null,"UPDATE SAVED");
+                  }
+                catch(Exception ee)
+                {
+                    System.out.println(ee);
+                }
+   } 
+       else
+         JOptionPane.showMessageDialog(null,"Empty Field Cannot be Saved");
+}
+if (e.getSource() == btncn)
+{
+this.dispose();
+}
+   }
+        public static void main (String args[])
+{
+newfund ob = new newfund();
+} 
+}  

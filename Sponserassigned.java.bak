@@ -1,0 +1,611 @@
+/*import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.*;
+public class Sponserassigned extends JFrame implements ActionListener,ItemListener
+{
+	JLabel lbhead = new JLabel("SPONSER   ASSIGNED");
+ JLabel lbid = new JLabel("Sponser Id");
+ JLabel lbsn = new JLabel("Sponser Name");
+ JLabel lbevty = new JLabel("Event Type");
+ JLabel lbamt = new JLabel("Amount");
+ JLabel lbfc = new JLabel("Facilites");
+ JLabel lbdes= new JLabel("Description");
+ 
+ JTextField txtid = new JTextField();
+ JTextField txtsn = new JTextField();
+ JTextField txtevty = new JTextField();
+ JTextField txtamt = new JTextField(); 
+ JTextField txtfc = new JTextField();
+ JTextField txtdes=new JTextField();
+ String[] col1={"FACILITY","DESCRIPTION"};
+ String evfc,evd;
+ Object [][]data1={{evfc},{evd}};
+ DefaultTableModel model1=new DefaultTableModel(col1,0);
+ JTable sttbl1= new JTable(data1,col1);
+ JScrollPane spanel1 = new JScrollPane(sttbl1);
+ JButton btnew = new JButton("NEW");
+ JButton btsave = new JButton("SAVE");
+ JButton btser = new JButton("SEARCH");
+ JButton btedit = new JButton("EDIT");
+ JButton btcan = new JButton("CANCEL");
+ JButton btnad = new JButton("ADD");
+ JButton btnr= new JButton("REMOVE");
+ Dimension d1 = Toolkit.getDefaultToolkit().getScreenSize();
+ public Sponserassigned()
+ {
+  setLayout(null);
+  setVisible(true);
+  int x = (int)d1.getWidth();
+  int y = (int)d1.getHeight();
+  setResizable(false);
+  setSize(x,y); 
+  //setSize(1000,600);
+  lbhead.setBounds(590,20,390,40);
+  lbid.setBounds(600,100,100,20);
+  txtid.setBounds(750,100,150,20);
+ 
+  lbsn.setBounds(600,140,100,20);
+  txtsn.setBounds(750,140,150,20);
+  
+  lbevty.setBounds(600,180,100,20);
+  txtevty.setBounds(750,180,100,20);
+ 
+  lbamt.setBounds(600,220,100,20);
+  txtamt.setBounds(750,220,100,20);
+ 
+  lbfc.setBounds(600,260,100,20);
+  txtfc.setBounds(750,260,100,20);
+  sttbl1.setModel(model1);
+  spanel1.setBounds(920,140,230,300);
+  add (spanel1);
+  lbdes.setBounds(600,300,80,20);
+  txtdes.setBounds(750,300,80,20);
+  btnad.setBounds(790,340,100,20);
+  btnr.setBounds(790,370,100,20);
+   
+  btnew.setBounds(450,480,120,30);
+  btsave.setBounds(600,480,120,30);
+  btser.setBounds(750,480,120,30);
+  btedit.setBounds(900,480,120,30);
+  btcan.setBounds(1050,480,120,30);
+  txtid.setEditable(false);
+  //txt.setVisible(false);
+ // btnad.setVisible(false);
+  Font f1 = new Font("Monotype Corsiva",Font.BOLD,35);
+  Font f2 = new Font("Monotype Corsiva",Font.BOLD,18);
+  Font f3 = new Font("Berlin Sans FB",Font.PLAIN,16);
+  lbhead.setForeground(new Color(100,0,60));
+  lbhead.setFont(f1);
+  
+  
+  btsave.setEnabled(false);
+  btedit.setEnabled(false);
+  add(lbhead);
+  add(lbid);
+  add(lbsn);
+  add(lbevty);
+  add(lbamt);
+  add(lbfc);
+  add(lbdes);
+  add(txtid);
+  add(txtsn);
+
+  add(txtevty);
+  add(txtamt);
+  add(txtdes);
+  add(txtfc);
+  add(btnew);
+  add(btsave);
+  add(btser);
+  add(btedit);
+  add(btcan);
+  add(btnad);
+  add(btnr);
+  /*add(txt);
+  //comdpart.addItemListener(this);
+  btnad.addActionListener(this);
+  btnr.addActionListener(this);
+  btnew.addActionListener(this);
+  btsave.addActionListener(this);
+  btser.addActionListener(this);
+  btedit.addActionListener(this);
+  btcan.addActionListener(this);
+
+repaint(); 
+}    
+ public void itemStateChanged(ItemEvent ie)
+ {
+     //txt.setVisible(false);
+    // btn.setVisible(false);
+  //if(comdpart.getSelectedItem()==("Others"))
+   //{
+    //txt.setVisible(true);
+    //btn.setVisible(true);
+   //}
+}
+ public void actionPerformed(ActionEvent e)
+ {
+   if(e.getSource()==btnad)
+  {
+    Vector v = new Vector();
+	v.add(txtfc.getText());
+	v.add(txtdes.getText());
+	model1.addRow(v);
+  }
+  if(e.getSource()==btnr)
+  {
+	  model1.removeRow(sttbl1.getSelectedRow());
+  }
+  if(e.getSource() == btnew)
+  {
+   btsave.setEnabled(true);
+   txtsn.setText("");
+   txtevty.setText("");
+   txtamt.setText("");
+   txtfc.setText("");
+   txtdes.setText("");
+
+   try
+   {
+   Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+   Statement st = con1.createStatement();
+   String str1 = "insert into studenttbl(SPONSERID,SPONSERNAME,EVENTTYPE,AMOUNT,FACILITIES,DESCRIPTION)values(?,?,?,?,?,?)";
+   ResultSet res1 = st.executeQuery("select * from keytable");
+   while(res1.next())
+   {
+    txtid.setText("Sp/" + res1.getString(3));
+    //comdpart.setSelectedItem("--Select--");
+    }
+   }
+   catch(Exception ee)
+   {
+       System.out.println(ee);
+   }
+  }
+  if(e.getSource() == btsave)
+  {
+	  btsave.setEnabled(false);
+   if(txtsn.getText().length()!=0 && txtevty.getText().length()!=0 && txtamt.getText().length()!=0 && txtfc.getText().length()!=0 && txtdes.getText().length()!=0)
+{
+try
+{
+   Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+   String str = "insert into Sponsertbl(SPONSERID,SPONSERNAME,EVENTTYPE,AMOUNT,FACILITIES,DESCRIPTION)values(?,?,?,?,?,?)";
+   PreparedStatement ps = con.prepareStatement(str);
+
+   ps.setString(1,txtid.getText());
+   ps.setString(2,txtsn.getText());
+   ps.setString(3,txtevty.getText());
+   ps.setString(4,txtamt.getText());
+   ps.setString(5,txtfc.getText());
+   ps.setString(6,txtdes.getText());
+   ps.executeUpdate();
+   Statement st = con.createStatement();
+   str = "update keytable set SPONSERID=SPONSERID+1";
+   st.executeUpdate(str);
+   JOptionPane.showMessageDialog(null,"SAVED");
+  }
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+}
+else 
+JOptionPane.showMessageDialog(null,"Empty Field Cannot be Saved");
+}
+  if(e.getSource() == btser)
+  {
+	  btedit.setEnabled(true);
+try
+{ 
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    String s=JOptionPane.showInputDialog(null,"Enter Event Id");  
+    ResultSet res = st.executeQuery("select * from Sponsertbl where SPONSERID='"+s+"'");
+    while(res.next())
+    {
+     txtid.setText(res.getString(1));
+     txtsn.setText(res.getString(2));
+     txtevty.setText(res.getString(3));
+     txtamt.setText(res.getString(4));
+     txtfc.setText(res.getString(5));
+     txtdes.setText(res.getString(6));
+    }
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+   }
+  if(e.getSource() == btedit)
+  { 
+    btedit.setEnabled(false);
+      if(txtsn.getText().length()!=0 && txtid.getText().length()!=0 && txtevty.getText().length()!=0 && txtamt.getText().length()!=0 && txtfc.getText().length()!=0 && txtdes.getText().length()!=0)
+{
+  try
+  {
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    String Str="Update Sponsertbl set SPONSERNAME='"+txtsn.getText()+"',EVENTTYPE='"+txtevty.getText()+"',AMOUNT='"+txtamt.getText()+"',FACILITIES='"+txtfc.getText()+"',DESCRIPTION='"+txtdes.getText()+"',where SPONSERID='"+txtid.getText()+"'";
+    st.executeUpdate(Str);
+    JOptionPane.showMessageDialog(null,"Edited");
+  } 
+  catch(Exception ee)
+ {
+  System.out.println(ee);
+  }
+}
+else 
+JOptionPane.showMessageDialog(null,"Empty Field Cannot be Searched");	
+  } 
+  if(e.getSource() == btcan)
+  {
+   this.dispose();
+  }
+ }
+ public static void main(String args[])
+ {
+ Sponserassigned sp = new Sponserassigned();
+ }
+}*/
+
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.*;
+public class Sponserassigned extends JFrame implements ActionListener,FocusListener,ItemListener
+{    
+    JLabel lbhead = new JLabel("SPONSER  ASSIGNED");
+    JLabel lbspid = new JLabel("SPONSER ID");
+    JLabel lbna = new JLabel("SPONSER NAME");
+    JLabel lbevty = new JLabel("EVENTYPE");
+JComboBox cbevty = new JComboBox();
+    JLabel lbamt = new JLabel("AMOUNT");
+    JLabel lbfac = new JLabel("FACILITIES");
+JLabel lbdes = new JLabel("DESCRIPTION");
+    JTextField txtspid = new JTextField();
+    JTextField txtna = new JTextField(); 
+    //JTextField txtevty = new JTextField();
+    JTextField txtamt = new JTextField();
+    JTextField txtfac = new JTextField();
+JTextField txtdes = new JTextField();
+JButton btnad = new JButton("ADD");
+JButton btnre = new JButton("REMOVE");
+    JButton btnew = new JButton("NEW");
+    JButton btsave = new JButton("SAVE");
+    JButton btser = new JButton("SEARCH");
+    JButton btedit = new JButton("EDIT");
+    JButton btcan = new JButton("CANCEL");
+    Dimension d1 = Toolkit.getDefaultToolkit().getScreenSize();
+String[] col={"Facilities","Description"};
+String tfac,tdes;
+    Object [] []data ={{tfac},{tdes}};
+    DefaultTableModel model = new DefaultTableModel(col,0);
+    JTable tblen = new JTable(data,col);
+    JScrollPane spanel = new JScrollPane(tblen);
+ public Sponserassigned()
+ {
+  setLayout(null);
+  setVisible(true);
+  int x = (int)d1.getWidth();
+  int y = (int)d1.getHeight();
+  setResizable(false);
+  setSize(1000,1000);
+  lbhead.setBounds(490,20,400,40);
+  lbspid.setBounds(20,140,130,20);
+  txtspid.setBounds(200,140,120,40);
+  lbna.setBounds(20,200,150,20);
+  txtna.setBounds(200,200,200,40);
+  lbevty.setBounds(20,260,100,20);
+  //txtevty.setBounds(640,250,150,20);
+  cbevty.setBounds(200,260,150,40);
+  lbamt.setBounds(20,320,100,20);
+  txtamt.setBounds(200,320,200,40);
+  lbfac.setBounds(20,380,100,20);
+  txtfac.setBounds(200,380,200,40);
+  lbdes.setBounds(20,440,150,20);
+  txtdes.setBounds(200,440,200,40);
+  tblen.setModel(model);
+  spanel.setBounds(550,140,250,300);
+  add (spanel);
+  btnad.setBounds(800,300,100,40);
+  btnre.setBounds(800,360,150,40);
+  btnew.setBounds(50,600,140,40);
+  btsave.setBounds(210,600,140,40);
+  btser.setBounds(370,600,140,40);
+  btedit.setBounds(530,600,140,40);
+  btcan.setBounds(690,600,140,40);
+  Font f1 = new Font("Imprint MT Shadow",Font.BOLD,35);
+  Font f2 = new Font("Californian FB",Font.BOLD,18);
+  Font f3 = new Font("Berlin Sans FB",Font.PLAIN,16);
+  lbhead.setForeground(new Color(100,0,60));
+  lbhead.setFont(f1);
+  lbamt.setFont(f2);
+  lbdes.setFont(f2);
+  lbevty.setFont(f2);
+  lbfac.setFont(f2);
+  lbna.setFont(f2);
+  lbspid.setFont(f2);
+  btnad.setFont(f2);
+  btcan.setFont(f2);
+  btedit.setFont(f2);
+  btnew.setFont(f2);
+  btnre.setFont(f2);
+  btsave.setFont(f2);
+  btser.setFont(f2);
+  txtamt.setFont(f3);
+  txtdes.setFont(f3);
+  cbevty.setFont(f3);
+ // txtevty.setFont(f3);
+  txtfac.setFont(f3);
+  txtna.setFont(f3);
+  txtspid.setFont(f3);
+  add (lbamt);
+  add (lbdes);
+  add (lbevty);
+  add (lbfac);
+  add (lbhead);
+  add (lbna);
+  add (lbspid);
+  add (txtamt);
+  add (txtdes);
+  //add (txtevty);
+  add (cbevty);
+  add (txtfac);
+  add (txtna);
+  add (txtspid);
+  add (btcan);
+  add (btedit);
+  add (btnad);
+  add (btnre);
+  add (btnew);
+  add (btsave);
+  add (btser);  
+  btnad.setMnemonic('A');
+  btcan.setMnemonic('C');
+  btnre.setMnemonic('D');
+  btedit.setMnemonic('E');
+  btnew.setMnemonic('N');
+  btsave.setMnemonic('S');
+  btser.setMnemonic('R');
+  btedit.setEnabled(false);
+  btsave.setEnabled(false);
+  btnad.setBackground(new Color(100,0,50));
+  btnre.setBackground(new Color(100,0,50));
+  btnew.setBackground(new Color(100,0,50));
+  btsave.setBackground(new Color(100,0,50));
+  btser.setBackground(new Color(100,0,50));
+  btedit.setBackground(new Color(100,0,50));
+  btcan.setBackground(new Color(100,0,50));
+  btnad.setForeground(new Color(200,250,150));
+  btnre.setForeground(new Color(200,250,150));
+  btnew.setForeground(new Color(200,250,150));
+  btsave.setForeground(new Color(200,250,150));
+  btser.setForeground(new Color(200,250,150));
+  btedit.setForeground(new Color(200,250,150));
+  btcan.setForeground(new Color(200,250,150));
+  btnew.addActionListener(this);
+  btsave.addActionListener(this);
+  btser.addActionListener(this);
+  btedit.addActionListener(this);
+  btcan.addActionListener(this);
+  btnad.addActionListener(this);
+  btnre.addActionListener(this);
+  txtspid.addFocusListener(this);
+  cbevty.addItemListener(this);
+ }
+   public void  itemStateChanged(ItemEvent ie)
+   {
+  try
+{
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+	String str="Select * from sponserassigned where sponserid='"+txtspid.getText()+"' and eventtype='"+cbevty.getSelectedItem()+"'";
+    ResultSet res = st.executeQuery(str);
+	model.setRowCount(0);
+    while(res.next())
+   {
+Vector v = new Vector();
+v.add(res.getString(5));
+v.add(res.getString(6));
+model.addRow(v);
+}
+con.close();
+}
+ catch(Exception iee)
+ {
+  System.out.println(iee);
+ }
+   }
+   public  void focusLost(FocusEvent fe)
+   {
+  if(fe.getSource()==txtspid)
+  {
+  txtna.setText("");
+    try
+    {
+Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+Statement st = con.createStatement();
+String str="Select * from sponsertbl where sponserid='"+txtspid.getText()+"'";
+ResultSet res = st.executeQuery(str);
+    while(res.next())
+{
+        txtna.setText(res.getString(2));
+}
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+ }
+  }
+  public void focusGained(FocusEvent fe)
+{
+
+}
+  public void actionPerformed(ActionEvent e)
+  {   if(e.getSource()==btnad)
+ {   
+         int flg=0; 
+
+    for(int i=0;i<model.getRowCount();i++)
+{
+    if(txtfac.getText().equals(model.getValueAt(i,0))&&txtdes.getText().equals(model.getValueAt(i,1)))
+{
+JOptionPane.showMessageDialog(null,"Student already registered");
+flg=1;
+break;
+} 
+}
+        if(flg==0)
+        { 
+    Vector v = new Vector();
+    v.add(txtfac.getText());
+    v.add(txtdes.getText());
+    model.addRow(v);
+   }
+ }
+ if(e.getSource()==btnre)
+ {
+ model.removeRow(tblen.getSelectedRow());
+ }
+ if(e.getSource()==btnew)
+ {   
+ btsave.setEnabled(true);
+ txtamt.setText("");
+ txtdes.setText("");
+ txtfac.setText("");
+ txtna.setText("");
+ txtspid.setText("");
+ model.setRowCount(0);
+ 
+ try
+ {
+ Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+ Statement st1 = con1.createStatement();
+ ResultSet res1 = st1.executeQuery("select distinct eventtype from Calendar");
+ while(res1.next())
+   {
+    cbevty.addItem(res1.getString(1));
+   }
+ }
+ catch(Exception ee)
+ {
+ System.out.println(ee);
+ }
+      }  
+ 
+ if(e.getSource()==btsave)
+ {
+ btsave.setEnabled(false);
+ 
+
+ if(txtamt.getText().length()!=0&&txtdes.getText().length()!=0&&cbevty.getSelectedItem().toString().length()!=0&&txtfac.getText().length()!=0&&txtna.getText().length()!=0&&txtspid.getText().length()!=0)
+ {
+    try
+            {
+             Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+             String str = "insert into Sponserassigned(SPONSERID,SPONSERNAME,EVENTTYPE,AMOUNT,FACILITIES,DESCRIPTION)values(?,?,?,?,?,?)";
+             for(int i=0;i<model.getRowCount();i++)
+             {
+            PreparedStatement ps = con.prepareStatement(str);
+            ps.setString(1,txtspid.getText());
+            ps.setString(2,txtna.getText());
+            ps.setString(3,""+cbevty.getSelectedItem());
+            ps.setString(4,txtamt.getText());
+            ps.setString(5,""+model.getValueAt(i,0));
+            ps.setString(6,""+model.getValueAt(i,1));
+            ps.executeUpdate(); 
+             }
+             JOptionPane.showMessageDialog(null,"SAVED");
+			 con.close();
+             }
+            catch(Exception ee)
+            {
+                 System.out.println(ee);
+            }
+         }
+    else
+     JOptionPane.showMessageDialog(null,"Empty Field Cannot be Saved");
+ }
+ if(e.getSource()==btser)
+ {
+ btedit.setEnabled(true); 
+     txtfac.setText("");
+     txtdes.setText("");
+          try
+          { 
+          Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+          Statement st = con.createStatement();
+          String tid = JOptionPane.showInputDialog(null,"Enter Sponser assigned Id :-");
+          ResultSet res = st.executeQuery("select * from sponserassigned where sponserid='"+tid+"' and eventtype='"+cbevty.getSelectedItem()+"'" );
+          model.setRowCount(0);
+          while(res.next())
+          {  
+          txtspid.setText(res.getString(1));
+          txtna.setText(res.getString(2));
+          cbevty.setSelectedItem(res.getString(3));
+            //txtevty.setText(res.getString(3));
+          txtamt.setText(res.getString(4));
+          Vector v = new Vector();
+          v.add(res.getString(5));
+          v.add(res.getString(6));
+          model.addRow(v);
+         }
+		 con.close();
+         }
+        catch(Exception ee)
+        {
+             System.out.println(ee);
+        }
+ }
+ if(e.getSource()==btedit)
+ {  
+ if(txtamt.getText().length()!=0&&txtdes.getText().length()!=0&&cbevty.getSelectedItem().toString().length()!=0&&txtfac.getText().length()!=0&&txtna.getText().length()!=0&&txtspid.getText().length()!=0)
+ {
+    try
+            {
+             Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+              Statement st=con.createStatement();
+             st.executeUpdate("delete from sponserassigned where sponserid='"+txtspid.getText()+"' and eventtype='"+cbevty.getSelectedItem()+"'");  
+     String str = "insert into sponserassigned(SPONSERID,SPONSERNAME,EVENTTYPE,AMOUNT,FACILITIES,DESCRIPTION)values(?,?,?,?,?,?)";
+             for(int i=0;i<model.getRowCount();i++)
+             {
+            PreparedStatement ps = con.prepareStatement(str);
+            ps.setString(1,txtspid.getText());
+        ps.setString(2,txtna.getText());
+                 ps.setString(3,""+cbevty.getSelectedItem());
+                 ps.setString(4,txtamt.getText());
+                 ps.setString(5,""+model.getValueAt(i,0));
+                ps.setString(6,""+model.getValueAt(i,1));
+                 ps.executeUpdate(); 
+             }
+             JOptionPane.showMessageDialog(null,"SAVED");
+			 con.close();
+             }
+            catch(Exception ee)
+            {
+                 System.out.println(ee);
+            }
+         }
+    else
+     JOptionPane.showMessageDialog(null,"Empty Field Cannot be Saved");
+ 
+ }
+ if(e.getSource()==btcan)
+ {
+ this.dispose();
+ }
+  }
+      public static void main(String args[])
+     {
+         Sponserassigned sa = new Sponserassigned();
+     }
+}

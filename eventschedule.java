@@ -1,0 +1,361 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.*;
+import java.io.*;
+public class eventschedule extends JFrame implements ActionListener,ItemListener
+{    
+JLabel lbhead = new JLabel("EVENT  SCHEDULE");
+JLabel lbevda = new JLabel("EVENT DATE");
+JLabel lbfr = new JLabel("FROM");
+JLabel lbto = new JLabel("TO");
+JLabel lbevna = new JLabel("EVENT NAME");
+JLabel lbevty = new JLabel("EVENTYPE");
+JLabel lbdate = new JLabel("DATE");
+JLabel lbveid = new JLabel("VENUE ID");
+JLabel lbvena = new JLabel("VENUE NAME");
+JLabel lbveamt = new JLabel("VENUE AMOUNT");
+JComboBox cbevty = new JComboBox();
+JTextField txtevda = new JTextField();
+JTextField txtdate = new JTextField();
+JTextField txtfr = new JTextField();
+JTextField txtveid = new JTextField();
+JTextField txtvena = new JTextField();
+JTextField txtveamt = new JTextField();
+JTextField txtto = new JTextField();
+JComboBox cbevna = new JComboBox(); 
+JButton btnad = new JButton("ADD");
+JButton btnre = new JButton("REMOVE");
+    JButton btnew = new JButton("NEW");
+    JButton btsave = new JButton("SAVE");
+    JButton btser = new JButton("SEARCH");
+    JButton btedit = new JButton("EDIT");
+    JButton btcan = new JButton("CANCEL");
+    Dimension d1 = Toolkit.getDefaultToolkit().getScreenSize();
+String[] col={"Date","Event Name"};
+String tdate,tevna;
+    Object [] []data ={{tdate},{tevna}};
+    DefaultTableModel model = new DefaultTableModel(col,0);
+    JTable tblen = new JTable(data,col);
+    JScrollPane spanel = new JScrollPane(tblen);
+public eventschedule()
+   {
+setLayout(null);
+setVisible(true);
+int x = (int)d1.getWidth();
+int y = (int)d1.getHeight();
+setResizable(false);
+setSize(x,y);
+lbhead.setBounds(640,20,400,40);
+lbevty.setBounds(450,140,130,20);
+cbevty.setBounds(690,140,120,20);
+lbevna.setBounds(450,200,130,20);
+cbevna.setBounds(690,200,120,20);
+lbevda.setBounds(450,260,120,20);
+lbfr.setBounds(690,260,70,20);
+txtfr.setBounds(800,260,120,20);
+lbto.setBounds(1000,260,70,20);
+txtto.setBounds(1110,260,120,20);
+lbdate.setBounds(380,400,100,20);
+txtdate.setBounds(380,450,120,20);
+tblen.setModel(model);
+spanel.setBounds(540,310,250,300);
+add (spanel);
+btnad.setBounds(820,450,100,20);
+btnre.setBounds(820,490,130,20);
+btnew.setBounds(300,650,140,30);
+btsave.setBounds(460,650,140,30);
+btser.setBounds(610,650,140,30);
+btedit.setBounds(760,650,140,30);
+btcan.setBounds(910,650,140,30);
+Font f1 = new Font("Monotype Corsiva",Font.BOLD,35);
+Font f2 = new Font("Monotype Corsiva",Font.BOLD,18);
+Font f3 = new Font("Berlin Sans FB",Font.PLAIN,16);
+lbhead.setForeground(new Color(100,0,60));
+lbhead.setFont(f1);
+    lbevda.setFont(f2);
+    lbevna.setFont(f2);
+	lbveid.setFont(f2);
+	lbvena.setFont(f2);
+	lbveamt.setFont(f2);
+lbevty.setFont(f2);
+lbdate.setFont(f2);
+lbdate.setFont(f2);
+    lbto.setFont(f2);
+    lbfr.setFont(f2);
+btnad.setFont(f2);
+btcan.setFont(f2);
+   btedit.setFont(f2);
+btnew.setFont(f2);
+btnre.setFont(f2);
+btsave.setFont(f2);
+btser.setFont(f2);
+txtevda.setFont(f3);
+txtdate.setFont(f3);
+
+cbevna.setFont(f3);
+cbevty.setFont(f3);
+txtto.setFont(f3);
+txtfr.setFont(f3);
+add (lbhead);
+add (lbevda);
+add (lbevna);
+add (lbevty);
+add(lbveamt);
+add(lbveid);
+add(lbvena);
+add (lbto);
+add (lbfr);
+add (lbdate);
+add (txtto);
+add (txtfr);
+add (txtevda);
+add (cbevna);
+add (cbevty);
+add (txtdate);
+add (btcan);
+add (btedit);
+add (btnad);
+add (btnew);
+add (btnre);
+add (btsave);
+add (btser);
+cbevty.addItem("--Select--");
+try
+        {
+    Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+Statement st1 = con1.createStatement();
+ResultSet res1 = st1.executeQuery("select distinct eventtype from Calendar");
+while(res1.next())
+    {
+cbevty.addItem(res1.getString(1));
+    }
+         con1.close(); 
+   }
+   catch(Exception ee)
+   {
+System.out.println(ee);
+   }
+btnad.setMnemonic('A');
+btcan.setMnemonic('C');
+btnre.setMnemonic('D');
+btedit.setMnemonic('E');
+btnew.setMnemonic('N');
+btsave.setMnemonic('S');
+btser.setMnemonic('R');
+btedit.setEnabled(false);
+btsave.setEnabled(false);
+btnad.setBackground(new Color(100,0,50));
+btnre.setBackground(new Color(100,0,50));
+btnew.setBackground(new Color(100,0,50));
+btsave.setBackground(new Color(100,0,50));
+btser.setBackground(new Color(100,0,50));
+btedit.setBackground(new Color(100,0,50));
+btcan.setBackground(new Color(100,0,50));
+btnad.setForeground(new Color(200,250,150));
+btnre.setForeground(new Color(200,250,150));
+btnew.setForeground(new Color(200,250,150));
+btsave.setForeground(new Color(200,250,150));
+btser.setForeground(new Color(200,250,150));
+btedit.setForeground(new Color(200,250,150));
+btcan.setForeground(new Color(200,250,150));
+btnew.addActionListener(this);
+btsave.addActionListener(this);
+btser.addActionListener(this);
+btedit.addActionListener(this);
+btcan.addActionListener(this);
+btnad.addActionListener(this);
+btnre.addActionListener(this);
+cbevna.addItemListener(this);
+cbevty.addItemListener(this);
+cbevna.addItem("--Select--");
+repaint();
+     }
+	 public void focusLost(FocusEvent fe)
+{
+if(fe.getSource()== txtveid)
+{
+try
+{
+Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn"); 
+Statement st1 = con1.createStatement();
+ResultSet res1 = st1.executeQuery("select VENUENAME,CHARGES from venuetbl where VENUEID='"+txtveid.getText()+"'");
+while(res1.next())
+{
+ txtvena.setText(res1.getString(1));
+ txtveamt.setText(res1.getString(2));
+}
+ con1.close(); 
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+}
+}
+public void focusGained(FocusEvent fe)
+{
+
+}
+
+public void itemStateChanged(ItemEvent ie)
+{
+   if(ie.getSource() instanceof JComboBox)
+   {
+     JComboBox jobj=(JComboBox)ie.getSource();
+   if(jobj==cbevty)
+   {	   
+    try
+{
+	//System.out.println("!!!!!!!!!!!!!");
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+	Statement st = con.createStatement();
+     cbevna.removeAllItems();
+	 cbevna.addItem("--Select--");
+    String str="Select distinct eventname from calendar where eventtype='"+cbevty.getSelectedItem()+"'";
+	ResultSet res = st.executeQuery(str);
+    while(res.next())
+{
+cbevna.addItem(res.getString(1));
+}
+ con.close();
+}
+catch(Exception iee)
+{
+System.out.println(iee);
+} 
+}
+  }
+}
+     public void actionPerformed(ActionEvent e)
+{   if(e.getSource()==btnad)
+{
+int flg=0; 
+for(int i=0;i<model.getRowCount();i++)
+{
+if(txtdate.getText().equals(model.getValueAt(i,0))&&cbevna.getSelectedItem().equals(model.getValueAt(i,1)))
+{
+JOptionPane.showMessageDialog(null,"Student already registered");
+flg=1;
+    break;
+} 
+}
+if(flg==0)
+{ 
+Vector v = new Vector();
+v.add(txtdate.getText());
+v.add(cbevna.getSelectedItem());
+model.addRow(v);
+}
+}
+if(e.getSource()==btnre)
+{
+model.removeRow(tblen.getSelectedRow()); 
+}
+if(e.getSource()==btnew)
+{
+	btsave.setEnabled(true);
+   //cbevna.removeAllItems();
+   txtfr.setText("");
+   txtto.setText("");
+   txtdate.setText("");
+   model.setRowCount(0);
+}
+if(e.getSource()==btsave)
+{
+ if(txtdate.getText().length()!=0&&txtfr.getText().length()!=0&&txtto.getText().length()!=0&&cbevna.getSelectedItem().toString().length()!=0&&cbevty.getSelectedItem().toString().length()!=0)
+   {
+   try
+   {
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    String str = "insert into eventscheduletbl(EVENTTYPE,EVENTNAME,DATEFROM,DATETO,CDATE)values(?,?,?,?,?)";
+    for(int i=0;i<model.getRowCount();i++)
+    {
+    PreparedStatement ps = con.prepareStatement(str);
+    ps.setString(1,""+cbevty.getSelectedItem());
+    ps.setString(2,""+model.getValueAt(i,1));
+    ps.setString(3,txtfr.getText());
+    ps.setString(4,txtto.getText());
+    ps.setString(5,""+model.getValueAt(i,0));
+    ps.executeUpdate(); 
+    }
+    JOptionPane.showMessageDialog(null,"SAVED");
+	con.close();
+    }
+    catch(Exception ee)
+    {
+     System.out.println(ee);
+    }
+    }
+}
+if(e.getSource()==btser)
+{
+	btedit.setEnabled(true);
+try
+{ 
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    String s=JOptionPane.showInputDialog(null,"Enter Event Id");  
+    ResultSet res = st.executeQuery("select * from eventscheduletbl where eventname='"+s+"'");
+    while(res.next())
+    {
+     cbevty.setSelectedItem(res.getString(1));
+     //cbevna.setSelectedItem(res.getString(2));
+     txtfr.setText(res.getString(3));
+     txtto.setText(res.getString(4));
+     //txtdate.setText(res.getString(5)); 
+     Vector v = new Vector();
+     v.add(res.getString(5));
+     v.add(res.getString(2));
+     model.addRow(v);
+    }
+	con.close();
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+}
+if(e.getSource()==btedit)
+{
+if(txtto.getText().length()!=0&&txtfr.getText().length()!=0&&cbevty.getSelectedItem().toString().length()!=0&&txtdate.getText().length()!=0&&cbevna.getSelectedItem().toString().length()!=0)
+   {
+    try
+            {
+Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+Statement myst=con1.createStatement();
+myst.executeUpdate("delete from eventscheduletbl where eventtype='"+cbevty.getSelectedItem()+"'");
+                 Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+                 String str = "insert into eventscheduletbl(EVENTTYPE,EVENTNAME,DATEFROM,DATETO,CDATE)values(?,?,?,?,?)";
+                for(int i=0;i<model.getRowCount();i++)
+                {
+PreparedStatement ps = con.prepareStatement(str);
+ps.setString(1,""+cbevty.getSelectedItem());
+ps.setString(2,""+model.getValueAt(i,1));
+ps.setString(3,txtfr.getText());
+ps.setString(4,txtto.getText());
+ps.setString(5,""+model.getValueAt(i,0));
+ps.executeUpdate(); 
+               }
+JOptionPane.showMessageDialog(null,"Edited");
+con.close();
+}
+catch(Exception ee)
+{
+	System.out.println(ee);
+}
+  }
+   }
+if(e.getSource()==btcan)
+{
+this.dispose();
+} 
+}
+public static void main(String args[])
+{
+eventschedule es= new eventschedule();
+}
+}

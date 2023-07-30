@@ -1,0 +1,283 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+import javax.swing.*;
+import java.sql.*;
+public class Student extends JFrame implements ActionListener,ItemListener
+{
+ JLabel lbhead = new JLabel("Student Details");
+ JLabel lbre = new JLabe("Registration NO.");
+ JLabel lbname = new JLabel("Name");
+ JLabel lbgn = new JLabel("Gender");
+ JComboBox comgn=new JComboBox();
+
+ JLabel lbdb = new JLabel("Date of Birth");
+ JLabel lbdp = new JLabel("Department");
+ JLabel lbbch = new JLabel("Batch");
+ JLabel lbemail = new JLabel("Email ID");
+ JLabel lbphn = new JLabel("Phone No."); 
+ JLabel lbad = new JLabel("Address");
+ JLabel lbevid = new JLabel("Event ID");
+ JLabel lbevname = new JLabel("Event Name");
+ JTextField txt=new JTextField();
+ JButton btn= new JButton();
+ 
+ JTextField txtrg = new JTextField();
+ JTextField txtname = new JTextField(); 
+ JTextField txtgn = new JTextField();
+ JTextField txtdob=new JTextField();
+
+ JComboBox comdpart = new JTextField();
+ JTextField txtbch = new JTextField(); 
+ JTextField txtemail = new JTextField();
+ JTextField txtphn=new JTextField(); 
+
+ JTextField txtadd = new JTextField();
+ JTextField txtevid = new JTextField(); 
+ JTextField txtevname=new JTextField();
+ 
+ JButton btnew = new JButton("NEW");
+ JButton btsave = new JButton("SAVE");
+ JButton btser = new JButton("SEARCH");
+ JButton btedit = new JButton("EDIT");
+ JButton btcan = new JButton("CANCEL");
+ 
+ public Student()
+ {
+  setLayout(null);
+  setVisible(true);
+  setSize(1000,600);
+  lbhead.setBounds(350,20,300,40);
+  lbre.setBounds(150,80,100,20);
+  txtevid.setBounds(500,80,150,20);
+ 
+  lbname.setBounds(150,120,100,20);
+  txtname.setBounds(500,120,150,20);
+  
+  lbgn.setBounds(150,160,100,20);
+  comgn.setBounds(500,160,100,20);
+ 
+  lbdb.setBounds(150,200,100,20);
+  txtdob.setBounds(500,200,150,20);
+ 
+  lbdp.setBounds(150,240,100,20);
+  comdpart.setBounds(500,240,100,20);
+  txt.setBounds(550,240,80,20);
+  btn.setBounds(550,265,30,20);
+
+  lbbch.setBounds(150,280,100,20);
+  txtbch.setBounds(500,280,150,20);
+
+  lbevid.setBounds(150,320,100,20);
+  txtevid.setBounds(500,320,150,20);
+
+  lbevname.setBounds(150,360,100,20);
+  txtevname.setBounds(500,360,150,20);
+
+  lbemail.setBounds(150,400,100,20);
+  txtemail.setBounds(500,120,150,20);
+
+  lbphn.setBounds(150,440,100,20);
+  txtphn.setBounds(500,440,150,20);
+ 
+  lbad.setBounds(150,480,100,20);
+  txtad.setBounds(500,480,150,20);
+   
+  btnew.setBounds(100,520,140,30);
+  btsave.setBounds(250,520,140,30);
+  btser.setBounds(400,520,140,30);
+  btedit.setBounds(550,520,140,30);
+  btcan.setBounds(700,520,140,30);
+  
+  txt.setVisible(false);
+  btn.setVisible(false);
+  Font f1 = new Font("Monotype Corsiva",Font.BOLD,30);
+  lbhead.setForeground(new Color(100,0,60));
+  lbhead.setFont(f1);
+  comgn.addItem("Select");
+  comgn.addItem("Male");
+  comgn.addItem("Female");
+  comgn.addItem("Others");
+
+  comdpart.addItem("--Select--");
+  comdpart.addItem("CSE");
+  comdpart.addItem("ECE");
+  comdpart.addItem("EEE");
+  comdpart.addItem("Civil");
+  comdpart.addItem("Mechanical");
+  comdpart.addItem("Chemical Engineering");
+  comdpart.addItem("Others");
+  add(lbhead);
+  add(lbre);
+  add(lbname);
+  add(txtrg);
+  add(txtname);
+  add(comdpart);
+  add(comgn);
+
+  add(lbgn);
+  add(lbdb);
+  add(txtdob);
+  add(lbdp);
+  add(lbevid);
+  add(txtevid);
+  add(lbevname);
+  add(txtevname);
+  add(lbemail);
+  add(txtemail);
+  add(lbphn);
+  add(txtphn);
+  add(lbad);
+  add(txtadd);
+
+
+  add(btnew);
+  add(btsave);
+  add(btser);
+  add(btedit);
+  add(btcan);
+  add(btn);
+  add(txt);
+  comdpart.addItemListener(this);
+  btn.addActionListener(this);
+  btnew.addActionListener(this);
+  btsave.addActionListener(this);
+  btser.addActionListener(this);
+  btedit.addActionListener(this);
+  btcan.addActionListener(this);
+
+repaint(); 
+}    
+ public void itemStateChanged(ItemEvent ie)
+ {
+     txt.setVisible(false);
+     btn.setVisible(false);
+  if(comdpart.getSelectedItem()==("Others"))
+   {
+    txt.setVisible(true);
+    btn.setVisible(true);
+    
+}
+}
+ public void actionPerformed(ActionEvent e)
+ {
+ if(e.getSource()==btn)
+  {
+    coname.addItem(txt.getText());
+  }
+
+  if(e.getSource() == btnew)
+  {
+   txtrg.setText("");
+   txtname.setText("");
+   txtdob.setText("");
+   txtbch.setText("");
+   txtevid.setText("");
+   txtevname.setText("");
+   txtemail.setText("");
+   txtphn.setText("");
+   txtadd.setText("");
+
+   
+   try
+   {
+   Connection con1 = DriverManager.getConnection("jdbc:odbc:eventdsn");
+   Statement st = con1.createStatement();
+   String str1 = "insert into studenttbl(REGISTRATIONNO,NAME,GENDER,DATEOFBIRTH,DEPARTMENT,BATCH,EVENTID,EVENTNAME,EMAILID,PHNNO,ADDRESS)values(?,?,?,?,?,?,?,?,?,?,?)";
+   ResultSet res1 = st.executeQuery("select * from keytable");
+   while(res1.next())
+   {
+    txtevid.setText("E/" + res1.getString(2));
+    comdpart.setSelectedItem("--Select--");
+    }
+   }
+   catch(Exception ee)
+   {
+       System.out.println(ee);
+   }
+  }
+  if(e.getSource() == btsave)
+  {
+try
+{
+   Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+   String str = "insert into studenttbl(REGISTRATIONNO,NAME,GENDER,DATEOFBIRTH,DEPARTMENT,BATCH,EVENTID,EVENTNAME,EMAILID,PHNNO,ADDRESS)values(?,?,?,?,?,?,?,?,?,?,?)";
+   PreparedStatement ps = con.prepareStatement(str);
+
+   ps.setString(1,txtrg.getText());
+   ps.setString(2,txtname.getText());
+   ps.setString(3,""+comgn.getSelectedItem());
+   ps.setString(4,txtdob.getText());
+   ps.setString(5,""+comdpart.getSelected());
+   ps.setString(6,txtbch.getText());
+   ps.setString(7,txtevid.getText());
+   ps.setString(8,txtevname.getText());
+   ps.setString(9,txtemail.getText());
+   ps.setString(10,txtphn.getText());
+   ps.setString(11,txtadd.getText());
+   ps.executeUpdate();
+   Statement st = con.createStatement();
+   str = "update keytable set eventid=eventid+1";
+   st.executeUpdate(str);
+   JOptionPane.showMessageDialog(null,"SAVED");
+  }
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+}
+  if(e.getSource() == btser)
+  {
+try
+{ 
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    ResultSet res = st.executeQuery("select * from studenttbl where eventid='"+txtevid.getText()+"'");
+    while(res.next())
+    {
+     txtrg.setText(res.getString(1));
+     txtname.setText(res.getString(2));
+     comgn.setSelectedItem(res.getString(3));
+     txtdob.setText(res.getString(4));
+     comdpart.setSelected(res.getString(5));
+     txtbch.setText(res.getString(6));
+     txtevid.setText(res.getString(7));
+     txtevname.setText(res.getString(8));
+     txtemail.setText(res.getString(9)); 
+     txtphn.setText(res.getString(10));
+     txtadd.setText(res.getString(11));
+     txt.setText(res.getString(12));
+    }
+}
+catch(Exception ee)
+{
+System.out.println(ee);
+}
+   }
+  if(e.getSource() == btedit)
+  { 
+      
+  try
+  {
+    Connection con = DriverManager.getConnection("jdbc:odbc:eventdsn");
+    Statement st = con.createStatement();
+    String Str="Update studenttbl set registrationno='"+txtrg.getText()+"',Name='"+txtname.getText()+"',gender='"+comgn.getSelectedItem()+"',dateofbirth='"+txtdob.getText()+"',department='"+comdpart.getSelectedItem()+"',batch='"+txtbch.getText()+"',eventid='"+txtevid.getText"',eventname='"+txtevname.getText()+"',emailid='"+txtemail.getText()"',phnno='"+txtphn.getText()"',address='"+txtadd.getText()"' where eventid='"+txtevid.getText()+"'";
+    st.executeUpdate(Str);
+    JOptionPane.showMessageDialog(null,"Edited");
+  } 
+  catch(Exception ee)
+ {
+  System.out.println(ee);
+  }
+}
+  
+  if(e.getSource() == btcan)
+  {
+   this.dispose();
+  }
+ }
+ public static void main(String args[])
+ {
+ Student sp = new Student();
+ }
+}
